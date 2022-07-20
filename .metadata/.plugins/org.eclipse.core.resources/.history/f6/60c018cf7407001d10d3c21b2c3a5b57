@@ -1,0 +1,39 @@
+package naver_movie;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+public class MainApp {
+
+	public static void main(String[] args) {
+        String url = "https://movie.naver.com/movie/bi/mi/basic.naver?code=81888";
+        Document doc = null;
+
+        try {
+            // document 가져온다
+            doc = Jsoup.connect(url).get();
+            // 목록을 가져온다
+            Elements elements1 = doc.select("");
+
+            System.out.println(doc.toString()+"");
+/*
+            Iterator<Element> subject = elements1.select("a").iterator();
+
+            int i=0;
+            while(subject.hasNext()){
+                i++;
+                System.out.println();
+            }*/
+        } catch (Exception e){
+            System.out.println("error occured!");
+        }
+    }
+
+    /*public static String getURL(int MovieCode){
+        String params = "code="+MovieCode;
+
+        return params;
+    }*/
+
+}

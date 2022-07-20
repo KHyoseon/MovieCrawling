@@ -1,0 +1,102 @@
+package naver_movie;
+
+import java.util.Iterator;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class MainApp {
+	
+	static class MovieReserveRate{
+		String name;
+		float man, woman;
+		float[] ages;
+		
+		public MovieReserveRate() {
+			ages = new float[5];
+		}
+
+		public MovieReserveRate(String name, float man, float woman, float[] ages) {
+			super();
+			this.name = name;
+			this.man = man;
+			this.woman = woman;
+			this.ages = ages;
+		}
+		
+		public MovieReserveRate(String name, float man, float woman, float teen, float twenty, float thirty, float fourty, float fifty) {
+			super();
+			this.name = name;
+			this.man = man;
+			this.woman = woman;
+			ages = new float[5];
+			ages[0] = teen;
+			ages[1] = twenty;
+			ages[2] = thirty;
+			ages[3] = fourty;
+			ages[4] = fifty;
+		}
+		
+	}
+
+	public static void main(String[] args) {
+		
+		// 네이버 영화, cgv, 롯데시네마에서 긁어옴
+		// 무비차트 목록에서 현재 상영작 영화의 코드 긁어옴
+		// 긁어온 코드를 상세정보페이지에 넣어서 크롤링 
+		
+		/*
+		 * cgv
+		 * http://www.cgv.co.kr/movies/?lt=1&ft=1
+		 * http://www.cgv.co.kr/movies/detail-view/?midx=
+		 */
+		
+		/*
+		 * 네이버 영화
+		 * https://movie.naver.com/movie/running/current.naver
+		 * https://movie.naver.com/movie/bi/mi/basic.naver?code=207922
+		 */
+		
+		/*
+		 * 롯데시네마
+		 * https://www.lottecinema.co.kr/NLCHS/Movie/List?flag=1
+		 * https://www.lottecinema.co.kr/NLCHS/Movie/MovieDetailView?movie=18651
+		 */
+		
+		
+		
+		
+		
+		
+		
+        String url = "https://movie.naver.com/movie/bi/mi/basic.naver?code=81888";
+        Document doc = null;
+
+        try {
+            // document 가져온다
+            doc = Jsoup.connect(url).get();
+            
+            // 목록을 가져온다
+            Elements elements1 = doc.select(".graph_percent");
+            Iterator<Element> subject = elements1.select(".graph_box").iterator();
+
+            int i=0;
+            for(Element el: elements1) {
+            	System.out.println((i+1)+": "+el);
+            	i++;
+            }
+            
+        } catch (Exception e){
+            System.out.println("error occured!");
+        }
+    }
+
+    public static String getCGVURL(int MovieCode){
+        String params = "code="+MovieCode;
+
+        return params;
+    }
+
+}

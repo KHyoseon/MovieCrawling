@@ -1,0 +1,22 @@
+INDEX VERSION 1.131+C:\Users\apso1\Desktop\SSAFY\12. 공통PJT\2주차\crawler\.metadata\.plugins\org.eclipse.jdt.core
+1777745451.index
+4031472721.index
+613153257.index
+1509799344.index
+645985691.index
+2394320433.index
+3233534106.index
+2214388396.index
+4036045194.index
+1314673273.index
+1922510947.index
+3367879769.index
+2806360846.index
+264200518.index
+2460931929.index
+1513911506.index
+55667315.index
+917932560.index
+2543584588.index
+948452624.index
+3063201858.index
