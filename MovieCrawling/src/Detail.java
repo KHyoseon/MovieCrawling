@@ -1,3 +1,111 @@
+
+public class Detail {
+	String engTitle;
+	String country;
+	String genere;
+	String summary;
+	String runningTime;
+	String img;
+	String rating;
+	String filmRating;
+	String releaseDate;
+	String totalCust;
+	
+	public Detail() {
+		super();
+	}
+
+	public String getEngTitle() {
+		return engTitle;
+	}
+	
+	public void setEngTitle(String engTitle) {
+		this.engTitle = engTitle;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getGenere() {
+		return genere;
+	}
+
+	public void setGenere(String genere) {
+		this.genere = genere;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	public String getRunningTime() {
+		return runningTime;
+	}
+
+	public void setRunningTime(String running_time) {
+		this.runningTime = running_time;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+	public String getRating() {
+		return rating;
+	}
+
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
+
+	public String getFilmRating() {
+		return filmRating;
+	}
+
+	public void setFilmRating(String filmRating) {
+		this.filmRating = filmRating;
+	}
+
+	public String getReleaseDate() {
+		return releaseDate;
+	}
+
+	public void setReleaseDate(String releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
+	public String getTotalCust() {
+		return totalCust;
+	}
+
+	public void setTotalCust(String totalCust) {
+		this.totalCust = totalCust;
+	}
+
+	@Override
+	public String toString() {
+		return "Detail [engTitle=" + engTitle + ", country=" + country + ", genere=" + genere + ", summary=" + summary
+				+ ", running_time=" + runningTime + ", img=" + img + ", rating=" + rating + ", release_date="
+				+ releaseDate + ", totalCust=" + totalCust + "]";
+	}
+}
+
+
+
+
+/*
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,6 +115,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -17,13 +126,13 @@ import com.codoid.products.fillo.Connection;
 import com.codoid.products.fillo.Fillo;
 
 public class MainApp {
-	public static final String WEB_DRIVER_ID = "webdriver.chrome.driver"; // �뱶�씪�씠踰� ID
-	public static final String WEB_DRIVER_PATH = "C:\\drivers\\chromedriver.exe"; // �뱶�씪�씠踰� 寃쎈줈
+	public static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
+	public static final String WEB_DRIVER_PATH = "C:\\drivers\\chromedriver.exe";
 
-	/*
+	
 	 * cgv http://www.cgv.co.kr/movies/?lt=1&ft=1
 	 * http://www.cgv.co.kr/movies/detail-view/?midx=
-	 */
+	 
 	public static void main(String[] args) throws FilloException {
 
 		List<MovieInfoDto> naver = new ArrayList<MovieInfoDto>();
@@ -47,70 +156,27 @@ public class MainApp {
 		} catch (InterruptedException e) {
 		}
 
-
-		for (int i = 0; i < 10; i++) {
+		// #flick0 li = 영화 정보 링크
+		WebElement flick = driver.findElements(By.id("flick0")).get(0);
+		List<WebElement> items = new ArrayList<WebElement>();
+		for(int i=1; i<=10; i++) {
+			items.add(flick.findElements(By.className("item"+i)).get(0));
+		}
+		
+		for (int i = 1; i <= 10; i++) {
 			MovieInfoDto curMovie = new MovieInfoDto();
 			
-			List<WebElement> movies = driver.findElements(By.className("tit3"));
-			WebElement anchor = movies.get(i).findElements(By.tagName("a")).get(0);
+			WebElement item = flick.findElements(By.className("item"+i)).get(0);
 
-			// 영화명
-			curMovie.setTitle(anchor.getAttribute("title"));
-
-			// 영화 코드
-			String link = anchor.getAttribute("href");
+			WebElement anchor = item.findElement(By.tagName("a"));
+			String link = item.getAttribute("href");
+			WebElement title = item.findElement(By.className("mv_title")); 
+			
 			int split = link.indexOf("=") + 1;
 			curMovie.setCode(link.substring(split));
+			curMovie.setTitle(title.getText());
 			
 			anchor.click();
-			
-			// 영화 정보
-			WebElement mvInfo = driver.findElements(By.className("mv_info")).get(1);
-
-			// 영어 제목
-			curMovie.detail.setEngTitle(mvInfo.findElement(By.className("h_movie2")).getText());
-
-			// 포스터
-			WebElement poster = driver.findElements(By.className("poster")).get(1);
-			WebElement src = poster.findElement(By.tagName("img"));
-			curMovie.detail.setImg(src.getAttribute("src"));
-			
-			// 관람객 평점
-			
-			// .dd span a
-			List<WebElement> infoSpec = mvInfo.findElements(By.tagName("dd"));
-			List<WebElement> spanA = null;
-			int j=0;
-			spanA = mvInfo.findElements(By.tagName("span"));
-			try {
-				spanA = mvInfo.findElements(By.tagName("a"));
-			}catch (Exception e) {
-			}finally {
-				if(spanA == null) {
-					curMovie.detail.setRunningTime(spanA.get(j).getText());
-				}
-			}
-			
-			// 장르
-			curMovie.detail.setGenere(infoSpec.);
-			
-			// 국가
-			curMovie.detail.setCountry(mvInfo.fin);
-			
-			// 러닝타임
-			
-			// 개봉일
-			
-			// 감독
-			
-			// 출연
-			
-			// 등급
-			
-			// 누적관객
-
-
-			// 줄거리
 			
 			// 페이지 진입 대기
 			try {
@@ -118,6 +184,7 @@ public class MainApp {
 			} catch (InterruptedException e) {
 			}
 
+			
 			WebElement genderGraph = null;
 			try {
 				// #actualGenderGraph tspan 성별 예매율
@@ -160,14 +227,17 @@ public class MainApp {
 		Fillo fillo = new Fillo();
 		Connection connection = fillo.getConnection("C:\\Users\\multicampus\\crawling\\test.xlsx");
 		
-//		String strInsertQuerry = String.format(
-//		"INSERT INTO Sheet1 (movieCode	title, male10, male20, male30, male40, male50, female10, female20, female30, female40, female50, rating) "
+//		String strInsertQuerry = String.format("INSERT INTO Sheet1 (movieCode	title, male10, male20, male30, male40, male50, female10, female20, female30, female40, female50, rating) "
 //				+ "Values('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", );
 //		connection.executeUpdate(strInsertQuerry);
 //		connection.close();
 		
 	}
 
+	
+	 * 네이버 영화 https://movie.naver.com/movie/running/current.naver
+	 * https://movie.naver.com/movie/bi/mi/basic.naver?code=207922
+	 
 	private static void crawlNaver(List<MovieInfoDto> naver) {
 		String mainUrl = "https://movie.naver.com/movie/running/current.naver";
 		Document mainDoc = null;
@@ -211,7 +281,7 @@ public class MainApp {
 		}
 	}
 
-	/*
+	
 	 * String url = "https://movie.naver.com/movie/bi/mi/basic.naver?code=81888";
 	 * Document doc = null;
 	 * 
@@ -224,6 +294,6 @@ public class MainApp {
 	 * }
 	 * 
 	 * } catch (Exception e){ System.out.println("error occured!"); }
-	 */
-
+	 
 }
+*/
